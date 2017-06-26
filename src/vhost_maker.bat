@@ -8,7 +8,6 @@ SET vhostname=false
 SET vhostpath=false
 SET XAMPPDIR=false
 SET BASEURL=false
-SET SUFFIX=false
 
 
 
@@ -61,14 +60,7 @@ IF NOT EXIST "%SCRIPTPATH%\config.ini" (
 			SET BASEURL=!BASEURL!\
 		)
 	)
-	
-	REM :suffix
-	ECHO:
-	SET SUFFIX=false
-	SET /p SUFFIX="[4/4] Domain suffix (local): " %=%
-	IF !SUFFIX!==false (
-		SET SUFFIX=dev
-	)
+
 		
 	ECHO: 
 	ECHO ----------------------------------------------
@@ -76,7 +68,6 @@ IF NOT EXIST "%SCRIPTPATH%\config.ini" (
 	
 	ECHO Xampp install dir: !XAMPPDIR!
 	ECHO     Document root: !BASEURL!
-	ECHO     Domain suffix: !SUFFIX!
 	ECHO:
 	choice /M "Is the information correct?" /c YN
 	IF ERRORLEVEL 2 GOTO start
@@ -85,7 +76,6 @@ IF NOT EXIST "%SCRIPTPATH%\config.ini" (
 	(
 		ECHO xamppdir=!XAMPPDIR!
 		ECHO baseurl=!BASEURL!
-		ECHO suffix=!SUFFIX!
 	) >>%SCRIPTPATH%\config.ini
 	
 	GOTO start
@@ -94,7 +84,6 @@ IF NOT EXIST "%SCRIPTPATH%\config.ini" (
 	for /f "tokens=1,2 delims==" %%a in (config.ini) do (
 		if %%a==xamppdir set XAMPPDIR=%%b
 		if %%a==baseurl set BASEURL=%%b
-		if %%a==suffix set SUFFIX=%%b
 	)
 )
 
@@ -103,7 +92,7 @@ REM *****************************************************************
 
 :getvhostname
 ECHO: 
-SET /p vhostname="Domain name (ex.: [domain].%SUFFIX%): " %=%
+SET /p vhostname="Domain name (ex.: mydomain.dev): " %=%
 IF !vhostname!==false (
 	ECHO You must enter a valid domain name.
 	GOTO getvhostname
@@ -130,7 +119,7 @@ REM *****************************************************************
 ECHO: 
 ECHO ----------------------------------------------
 ECHO: 
-ECHO Domain: %vhostname%.%SUFFIX%
+ECHO Domain: %vhostname%
 ECHO   Path: %BASEURL%%vhostpath%
 ECHO:
 choice /M "Is the information correct?" /c YN
@@ -147,7 +136,7 @@ ECHO [1/2] Adding virtualhost to httpd.conf
 	ECHO    ###%vhostname%###
 	ECHO    ^<VirtualHost *:80^>
 	ECHO        DocumentRoot "%BASEURL%%vhostpath%"
-	ECHO        ServerName %vhostname%.%SUFFIX%
+	ECHO        ServerName %vhostname%
 	ECHO        ^<Directory "%BASEURL%%vhostpath%"^>
 	ECHO            Order allow,deny
 	ECHO            Allow from all
@@ -157,7 +146,7 @@ ECHO [1/2] Adding virtualhost to httpd.conf
 
 ECHO [2/2] Write into hosts file:
 
-TYPE "%SystemRoot%\system32\drivers\etc\hosts" | find "127.0.0.1 %vhostname%.%SUFFIX%" || ECHO.127.0.0.1 %vhostname%.%SUFFIX% >>"%SystemRoot%\system32\drivers\etc\hosts"
+TYPE "%SystemRoot%\system32\drivers\etc\hosts" | find "127.0.0.1 %vhostname%" || ECHO.127.0.0.1 %vhostname% >>"%SystemRoot%\system32\drivers\etc\hosts"
 
 
 REM DONE ************************************************************
@@ -166,7 +155,7 @@ cls
 ECHO: 
 ECHO ================== All Done! ==================
 ECHO:
-ECHO The new vhost domain is: [%vhostname%.%SUFFIX%]
+ECHO The new vhost domain is: [%vhostname%]
 ECHO Restart Apache to see the changes
 ECHO: 
 ECHO: 
