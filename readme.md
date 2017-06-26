@@ -1,31 +1,28 @@
-#Batch Script: XAMPP Virtual Host Creator
+#Batch Script: XAMPP Virtual Host Creator#
 
 This is a small script that facilitates the configuration of virtual hostings in xamp on windows.
 
 
-##Initial configuration
+##Initial configuration##
 
-###Config.ini
+###Config.ini##
 All confgurations will be saved in the Config.ini file in the same folder as the script.
 
 If this file does not exist, the script will try to create it dynamically.
 
 
-###Script variables
+###Script variables##
 The first time the script is run, it will attempts to locate the configuration file to load the initial settings.
 
 If not found it will try to create it dynamically with the help of the user.  
 
 1. **XAMPPDIR**: The installation path of Xampp | Defautl: C:\xammp
 1. **BASEURL**: The document root for Xampp | Default: C:\xammp\htdocs\
-1. **PREFIX**: The prefix for the virtual host domain | Defualt: dev
-1. **SUFFIX**: The suffix for the virtual host domain | Defualt: local
 
-
-##How to use
+##How to use###
 When executed the script prompts the user to complete two values.
 
-1. Domain name: [prefix][domain][local]  
+1. Domain name: [full_domain]
 	Ex.: For the domain **dev.mysite.local**, just enter the text **mysite**.
 
 2. Path to site root (relative to C:\mysitesfolder\).
