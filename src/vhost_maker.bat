@@ -138,8 +138,7 @@ ECHO [1/2] Adding virtualhost to httpd.conf
 	ECHO        DocumentRoot "%BASEURL%%vhostpath%"
 	ECHO        ServerName %vhostname%
 	ECHO        ^<Directory "%BASEURL%%vhostpath%"^>
-	ECHO            Order allow,deny
-	ECHO            Allow from all
+	ECHO            Require all granted    
 	ECHO        ^</Directory^>
 	ECHO    ^</VirtualHost^>
 ) >>%XAMPPDIR%apache\conf\extra\httpd-vhosts.conf
